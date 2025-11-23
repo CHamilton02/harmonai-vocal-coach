@@ -1,13 +1,8 @@
 <script>
-import VocalCoachUI from '@/frontend/VocalCoachUI.vue';
+import VocalCoachUI from './components/VocalCoachUI.vue';
 
 export default {
   components: { VocalCoachUI },
-  data() {
-    return {
-      name: 'Hello',
-    };
-  },
 };
 </script>
 
