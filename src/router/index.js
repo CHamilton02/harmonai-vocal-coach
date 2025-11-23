@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import VocalCoachUI from '../frontend/components/VocalCoachUI.vue';
-import ResultsPage from '../frontend/components/ResultsPage.vue';
-import PitchGame from '@/frontend/components/PitchGame.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import VocalCoachUI from '../frontend/components/VocalCoachUI.vue'
+import ResultsPage from '../frontend/components/ResultsPage.vue'
+import PitchGame from '@/frontend/components/PitchGame.vue'
 
 const routes = [
   {
@@ -18,13 +18,32 @@ const routes = [
   {
     path: '/exercise',
     name: 'Exercise',
-    component: PitchGame
+    component: PitchGame,
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-});
+})
 
-export default router;
+router.beforeEach((to, from, next) => {
+  const state = history.state
+
+  if (to.path != '/results') {
+    next()
+    return
+  }
+
+  if (
+    !state.results ||
+    !state.url ||
+    Object.keys(state.value || {}).length === 0
+  ) {
+    next({ name: 'Home' })
+  } else {
+    next()
+  }
+})
+
+export default router
