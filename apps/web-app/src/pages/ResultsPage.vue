@@ -9,6 +9,7 @@ import {
   Wind,
   Weight,
   ArrowLeft,
+  CalendarDays,
 } from 'lucide-vue-next'
 import capitalizeWord from '../utils/CapitalizeWord'
 import { useRouter } from 'vue-router'
@@ -29,10 +30,16 @@ interface Exercise {
   description: string
 }
 
+interface TimelineItem {
+  date: string
+  task: string
+}
+
 interface AnalysisResult {
   vocalToneAnalysis: ToneAnalysis
   improvementTips: ImprovementTip[]
   suggestedExercises: Exercise[]
+  timeline?: TimelineItem[]
 }
 
 const rawState = history.state || {}
@@ -182,6 +189,25 @@ const handleBack = () => {
           <p v-if="!data.suggestedExercises">No suggested exercises!</p>
         </div>
       </div>
+
+      <section v-if="data.timeline" class="timeline-section">
+        <h2 class="section-title">
+          <CalendarDays class="section-icon" /> Your 7-Day Vocal Plan
+        </h2>
+        <div class="timeline-container">
+          <div
+            v-for="(item, index) in data.timeline"
+            :key="index"
+            class="timeline-item"
+          >
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">{{ item.date }}</div>
+              <p class="timeline-task">{{ item.task }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -474,5 +500,52 @@ h1 {
   color: var(--text-secondary);
   margin: 0;
   line-height: 1.5;
+}
+
+/* --- TIMELINE SECTION --- */
+.timeline-section {
+  margin-top: 3rem;
+}
+
+.timeline-container {
+  position: relative;
+  padding-left: 2rem; /* Space for the timeline line */
+  border-left: 2px solid var(--card-bg);
+  margin-left: 10px; /* Align with section titles */
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2.7rem; /* Adjust to center on the line */
+  top: 5px; /* Align with the date text */
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  border: 3px solid var(--bg-dark);
+}
+
+.timeline-date {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.timeline-task {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
 }
 </style>
