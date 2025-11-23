@@ -10,6 +10,7 @@ import {
   Weight,
   ArrowLeft,
 } from 'lucide-vue-next'
+import capitalizeWord from '@/utils/CapitalizeWord'
 
 // 1. TypeScript Interfaces
 interface ToneAnalysis {
@@ -34,63 +35,33 @@ interface AnalysisResult {
   suggestedExercises: Exercise[]
 }
 
-// 2. Mock Data
-const MOCK_DATA: AnalysisResult = {
-  vocalToneAnalysis: {
-    timbre: 'Warm and Resonant',
-    texture: 'Slightly Breathy',
-    vocalWeight: 'Medium-Light (Likely Baritone)',
-  },
-  improvementTips: [
-    {
-      issueName: 'Inconsistent Airflow',
-      fix: 'Focus on steady diaphragmatic support rather than pushing from the throat. Imagine a steady stream of water.',
-    },
-    {
-      issueName: 'Scooping Pitch',
-      fix: 'Attack the note directly rather than sliding up to it. Visualize landing on top of the note.',
-    },
-  ],
-  suggestedExercises: [
-    {
-      exerciseName: 'Lip Trills',
-      description:
-        'Blow air through loose lips to create a motorboat sound while sliding up and down your range. This balances pressure.',
-    },
-    {
-      exerciseName: 'Ngang Sirens',
-      description:
-        "Make a 'ng' sound (like in 'sing') and slide from your lowest to highest note to improve nasal resonance.",
-    },
-  ],
-}
-
 // 3. Get data from history state, with a fallback to MOCK_DATA
 // Note: In a real browser reload, history.state might be null, so we optional chain just in case.
 const data = computed(
-  () =>
-    ((history.state && history.state.results) || MOCK_DATA) as AnalysisResult
+  () => ((history.state && history.state.results) || {}) as AnalysisResult
 )
+
+const audioURL = computed(() => history.state.url)
 
 // 4. Helper to organize the Tone Cards for the template
 const toneCards = computed(() => [
   {
     label: 'Timbre',
-    value: data.value.vocalToneAnalysis.timbre,
+    value: data.value.vocalToneAnalysis.timbre || '',
     desc: 'Your unique tone color',
     icon: Mic2,
     colorClass: 'text-green-600',
   },
   {
     label: 'Texture',
-    value: data.value.vocalToneAnalysis.texture,
+    value: data.value.vocalToneAnalysis.texture || '',
     desc: 'Surface quality of sound',
     icon: Wind,
     colorClass: 'text-green-500',
   },
   {
     label: 'Vocal Weight',
-    value: data.value.vocalToneAnalysis.vocalWeight,
+    value: data.value.vocalToneAnalysis.vocalWeight || '',
     desc: 'Perceived heaviness',
     icon: Weight,
     colorClass: 'text-green-400',
@@ -134,6 +105,10 @@ const handleBack = () => {
       </header>
 
       <section class="profile-section">
+        <div v-if="audioURL" class="audio-player-container">
+          <p class="audio-label">Your Recording:</p>
+          <audio :src="audioURL" controls></audio>
+        </div>
         <h2 class="section-title">
           <Activity class="section-icon" /> Your Vocal Profile
         </h2>
@@ -144,7 +119,13 @@ const handleBack = () => {
               <div class="metric-label">{{ card.label }}</div>
             </div>
 
-            <div class="metric-value">{{ card.value }}</div>
+            <div v-if="card.value" class="metric-value">
+              {{ capitalizeWord(card.value) }}
+            </div>
+            <div v-if="!card.value" class="metric-value">
+              No {{ card.label }} data available!
+            </div>
+
             <div class="metric-desc">{{ card.desc }}</div>
 
             <div class="status-indicator"></div>
@@ -158,40 +139,44 @@ const handleBack = () => {
             <AlertCircle class="section-icon warning-text" /> Areas for
             Improvement
           </h2>
-
-          <div
-            v-for="(tip, index) in data.improvementTips"
-            :key="index"
-            class="list-item"
-          >
-            <div class="icon-box warning-icon">
-              <AlertCircle :size="20" />
-            </div>
-            <div class="item-content">
-              <h4>{{ tip.issueName }}</h4>
-              <p>{{ tip.fix }}</p>
+          <div v-if="data.improvementTips">
+            <div
+              v-for="(tip, index) in data.improvementTips"
+              :key="index"
+              class="list-item"
+            >
+              <div class="icon-box warning-icon">
+                <AlertCircle :size="20" />
+              </div>
+              <div class="item-content">
+                <h4>{{ tip.issueName }}</h4>
+                <p>{{ tip.fix }}</p>
+              </div>
             </div>
           </div>
+          <p v-if="!data.improvementTips">No improvement tips!</p>
         </div>
 
         <div class="rec-card">
           <h2 class="section-title success-border">
             <Music2 class="section-icon success-text" /> Recommended Exercises
           </h2>
-
-          <div
-            v-for="(exercise, index) in data.suggestedExercises"
-            :key="index"
-            class="list-item"
-          >
-            <div class="icon-box success-icon">
-              <CheckCircle2 :size="20" />
-            </div>
-            <div class="item-content">
-              <h4>{{ exercise.exerciseName }}</h4>
-              <p>{{ exercise.description }}</p>
+          <div v-if="data.suggestedExercises">
+            <div
+              v-for="(exercise, index) in data.suggestedExercises"
+              :key="index"
+              class="list-item"
+            >
+              <div class="icon-box success-icon">
+                <CheckCircle2 :size="20" />
+              </div>
+              <div class="item-content">
+                <h4>{{ exercise.exerciseName }}</h4>
+                <p>{{ exercise.description }}</p>
+              </div>
             </div>
           </div>
+          <p v-if="!data.suggestedExercises">No suggested exercises!</p>
         </div>
       </div>
     </div>
@@ -372,6 +357,38 @@ h1 {
   border-radius: 2px;
   margin-top: 1rem;
   opacity: 0.5;
+}
+
+/* --- AUDIO PLAYER --- */
+.audio-player-container {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 3rem;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.audio-player-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.audio-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.audio-player-container audio {
+  width: 100%;
 }
 
 /* --- RECOMMENDATIONS --- */

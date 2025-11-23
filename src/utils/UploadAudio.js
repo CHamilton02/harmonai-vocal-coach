@@ -30,7 +30,10 @@ export async function uploadAudio(audioBlob, router) {
       // Navigate to the results page with the data
       router.push({
         name: 'Results',
-        state: { results: result },
+        state: {
+          results: result,
+          url: URL.createObjectURL(audioBlob),
+        },
       })
     } else {
       console.error('Upload failed with status:', response.status)
