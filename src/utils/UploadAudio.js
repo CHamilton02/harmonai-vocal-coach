@@ -26,19 +26,18 @@ export async function uploadAudio(audioBlob, router) {
     if (response.ok) {
       const result = await response.json()
       console.log('Upload successful!', result)
-      
-      // Navigate to the results page with the data
-      router.push({ 
-        name: 'Results', 
-        state: { results: result } 
-      })
 
+      // Navigate to the results page with the data
+      router.push({
+        name: 'Results',
+        state: { results: result },
+      })
     } else {
       console.error('Upload failed with status:', response.status)
       alert('Upload failed.')
     }
   } catch (error) {
     console.error('Error during upload:', error)
-    alert('An error occurred during upload.')
+    alert('Upload failed.')
   }
 }

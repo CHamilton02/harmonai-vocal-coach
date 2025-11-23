@@ -9,10 +9,13 @@ export default {
     return {
       // Represents the current state of the app
       // 'idle', 'recording', 'analyzing', 'results'
-      appState: 'idle',
+      appState: 'idle', // 'idle', 'recording', 'analyzing', 'results'
       analysis: null, // To store results from the backend
     };
   },
+  methods: {
+    // This method will be triggered by an event from a child component
+    // or after the recording is processed.
     showResults() {
       // Mock analysis data
       this.analysis = {
@@ -33,10 +36,12 @@ export default {
       };
       this.appState = 'results';
     },
+    // Method to go back to the initial state
     resetApp() {
       this.appState = 'idle';
       this.analysis = null;
     }
+  }
 };
 </script>
 
@@ -95,21 +100,6 @@ button {
 
 button:hover {
   background-color: #36a473;
-}
-
-.recording-indicator .pulsing-dot {
-  height: 20px;
-  width: 20px;
-  background-color: red;
-  border-radius: 50%;
-  margin: 20px auto;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 82, 82, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
 }
 
 .results-container ul {
