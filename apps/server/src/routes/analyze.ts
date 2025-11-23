@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { analyzeVoice } from '../controllers/analyze.js'
+import { analyzeSongComparison, analyzeVoice } from '../controllers/analyze.js'
 import multer from 'multer'
 
 const router = Router()
@@ -16,5 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.post('/audio', upload.single('audio'), analyzeVoice)
+
+router.post('/song-comparison', upload.single('audio'), analyzeSongComparison)
 
 export default router

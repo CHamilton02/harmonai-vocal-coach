@@ -6,6 +6,7 @@ import {
 import { Request } from 'express'
 import 'dotenv/config'
 import { analyzedVoiceResponseJsonSchema } from '../types/analyze.js'
+import { analyzedSongComparisonResponseJsonSchema } from '../types/analyzeSongComparison.js'
 
 const apiKey = process.env.GEMINI_API_KEY
 
@@ -46,5 +47,39 @@ export async function analyzeVoiceService(req: Request) {
 
   const text = result.text
 
-  return JSON.parse(result.text || '')
+  return JSON.parse(text || '')
+}
+
+export async function analyzeSongComparisonService(req: Request) {
+  if (!req.file) {
+    throw new Error('No file uploaded.')
+  }
+
+  const uploadResponse = await genAI.files.upload({
+    file: req.file.path,
+    config: { mimeType: req.file.mimetype },
+  })
+
+  if (!uploadResponse.uri || !uploadResponse.mimeType) {
+    throw new Error('File upload failed, URI or mimeType is missing.')
+  }
+
+  const currentDate = new Date().toISOString()
+
+  const result = await genAI.models.generateContent({
+    model: 'gemini-2.0-flash',
+    contents: createUserContent([
+      createPartFromUri(uploadResponse.uri, uploadResponse.mimeType),
+      `Analyze this audio file and provide an analysis of the user's vocal performance in comparison to the song they are trying to emulate (song title: ${req.body.songTitle}, artist: ${req.body.artist}) and return it in a JSON highlighting the key points mentioned in the JSON format provided.`,
+    ]),
+    config: {
+      responseMimeType: 'application/json',
+      responseJsonSchema: analyzedSongComparisonResponseJsonSchema,
+      maxOutputTokens: 16000,
+    },
+  })
+
+  const text = result.text
+
+  return JSON.parse(text || '')
 }
