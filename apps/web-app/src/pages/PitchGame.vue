@@ -15,11 +15,11 @@
         class="pipe-set"
         :style="{ left: pipe.x + 'px' }"
       >
-        <div class="pipe-top" :style="{ height: pipe.gapY + 'px' }"> <img href="@/frontend/images/microphone_stand_flipped.png"></img></div>
+        <div class="pipe-top" :style="{ height: pipe.gapY + 'px' }"> <img class="pipes_img" src="@/public/microphone_stand_flipped.png"></img></div>
         <div class="pipe-bottom" :style="{ 
             top: (pipe.gapY + pipe.gapSize) + 'px',
-            height: (gameHeight - (pipe.gapY + pipe.gapSize)) + 'px'
-          }"> <img href="@/frontend/images/microphone_stand.png"></img></div>
+            height: (gameHeight - (pipe.gapY + pipe.gapSize)) + 1000 + 'px'
+          }"> <img class="pipes_img" src="@/public/microphone_stand.png"></img></div>
       </div>
     </div>
     
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import bird1 from "@/frontend/images/bird1.png";
+import bird1 from "@/public/bird1.png";
 // --- PHYSICS AND GAME CONSTANTS ---
 const GAME_LOOP_INTERVAL = 1000 / 60; // 60 FPS
 const GAME_HEIGHT = 480;
@@ -241,7 +241,7 @@ export default {
         const pipeXMin = pipe.x;
         const pipeXMax = pipe.x + 50; // Assuming pipe width is 50px
         
-        if (birdRect.x + birdRect.width > pipeXMin && birdRect.x < pipeXMax) {
+        if (birdRect.x + birdRect.width - 10 > pipeXMin && birdRect.x < pipeXMax) {
           // Collision in the X direction is happening. Now check Y gap.
           const topPipeYMax = pipe.gapY;
           const bottomPipeYMin = pipe.gapY + pipe.gapSize;
@@ -263,9 +263,9 @@ export default {
 .game-container {
   position: relative;
   width: 500px;
-  /* background-image: url('@/frontend/images/game_bg.png'); */
+  background-image: url('@/public/game_bg.jpg');
+  background-size: cover;
   background-color: #70c5ce;
-  border-bottom: 20px solid #d2b48c;
   height: 480px;
   overflow: hidden;
   margin: 20px auto;
@@ -299,15 +299,19 @@ export default {
   position: absolute;
   top: 0;
   width: 100%;
-  background-color: #74bf2e;
-  border: 2px solid #5a8a25;
+  /* background-color: #74bf2e;
+  border: 2px solid #5a8a25; */
 }
 
 .pipe-bottom {
   position: absolute;
   width: 100%;
-  background-color: #74bf2e;
-  border: 2px solid #5a8a25;
+  /* background-color: #74bf2e;
+  border: 2px solid #5a8a25; */
+}
+
+.pipes_img {
+  width:100%;
 }
 
 .control-panel {
