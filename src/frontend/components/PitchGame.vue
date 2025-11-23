@@ -1,14 +1,13 @@
 <template>
   <div id="voice-pitch-game">
-    <div class="game-container" :style="{ height: gameHeight + 'px' }">
+    <div class="game-container" :style="{ height: gameHeight + 'px'}">
       <div 
         class="bird" 
         :style="{ 
-          top: birdY + 'px', 
-          transform: `rotate(${rotationAngle}deg)` 
+          top: birdY + 'px'
         }"
       >
-        🐦
+        <img class="birdier" :src="bird_image"></img>
       </div>
       <div 
         v-for="(pipe, index) in pipes" 
@@ -16,11 +15,11 @@
         class="pipe-set"
         :style="{ left: pipe.x + 'px' }"
       >
-        <div class="pipe-top" :style="{ height: pipe.gapY + 'px' }"></div>
+        <div class="pipe-top" :style="{ height: pipe.gapY + 'px' }"> <img href="@/frontend/images/microphone_stand_flipped.png"></img></div>
         <div class="pipe-bottom" :style="{ 
             top: (pipe.gapY + pipe.gapSize) + 'px',
             height: (gameHeight - (pipe.gapY + pipe.gapSize)) + 'px'
-          }"></div>
+          }"> <img href="@/frontend/images/microphone_stand.png"></img></div>
       </div>
     </div>
     
@@ -37,6 +36,7 @@
 </template>
 
 <script>
+import bird1 from "@/frontend/images/bird1.png";
 // --- PHYSICS AND GAME CONSTANTS ---
 const GAME_LOOP_INTERVAL = 1000 / 60; // 60 FPS
 const GAME_HEIGHT = 480;
@@ -109,6 +109,7 @@ export default {
       currentPitch: 0,
       isGameOver: true,
       gameHeight: GAME_HEIGHT,
+      bird_image: bird1,
       
       // Game State
       birdY: GAME_HEIGHT / 2,
@@ -213,7 +214,7 @@ export default {
       const gapY = Math.random() * (this.gameHeight - GAP_SIZE - (2 * VERTICAL_PADDING)) + VERTICAL_PADDING;
 
       this.pipes.push({
-        x: 500, // Starts off-screen to the right
+        x: 300, // Starts off-screen to the right
         gapY: gapY,     // Y position where the gap *starts*
         gapSize: GAP_SIZE, // Vertical size of the gap
         width: PIPE_WIDTH,
@@ -258,9 +259,11 @@ export default {
 </script>
 
 <style scoped>
+
 .game-container {
   position: relative;
   width: 500px;
+  /* background-image: url('@/frontend/images/game_bg.png'); */
   background-color: #70c5ce;
   border-bottom: 20px solid #d2b48c;
   height: 480px;
@@ -271,12 +274,15 @@ export default {
 .bird {
   position: absolute;
   left: 50px;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  font-size: 24px;
+  /* line-height: 30px; */
+  /* text-align: center; */
+  /* font-size: 24px; */
   transition: transform 0.05s linear; /* Smooth the rotation */
+}
+
+.birdier{
+    width: 40%;
+    height: auto;
 }
 
 .pipe-set {
