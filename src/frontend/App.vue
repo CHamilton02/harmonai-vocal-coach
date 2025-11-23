@@ -1,5 +1,5 @@
 <script>
-import VocalCoachUI from '@/components/VocalCoachUI.vue';
+import VocalCoachUI from '@/frontend/VocalCoachUI.vue';
 
 export default {
   components: { VocalCoachUI },
