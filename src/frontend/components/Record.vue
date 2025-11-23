@@ -82,9 +82,9 @@ export default {
     // 3. Process the Recorded Audio
     async handleRecordingStop() {
       // Combine all recorded chunks into a single Blob
-      const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
-
-      await uploadAudio(audioBlob);
+        const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
+        this.audioURL = URL.createObjectURL(audioBlob);
+    //   await uploadAudio(audioBlob);
     },
   },
   // Clean up the URL when the component is destroyed
