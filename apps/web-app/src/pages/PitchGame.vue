@@ -25,9 +25,9 @@
     
     <div class="control-panel">
       <h3>Pitch Control Status</h3>
-      <p>Status: **{{ audioStatus }}**</p>
-      <p>Current Pitch: **{{ currentPitch.toFixed(2) }} Hz**</p>
-      <p>Game Height: **{{ birdY.toFixed(0) }}** (Min/Max: {{ MIN_PITCH }}Hz / {{ MAX_PITCH }}Hz)</p>
+      <p>Status: {{ audioStatus }}</p>
+      <p>Current Pitch: {{ currentPitch.toFixed(2) }} Hz</p>
+      <p>Game Height: {{ birdY.toFixed(0) }} (Min/Max: {{ MIN_PITCH }}Hz / {{ MAX_PITCH }}Hz)</p>
       <button @click="isGameOver ? startGame() : stopGame()">
         {{ isGameOver ? 'Start Game' : 'Stop Game' }}
       </button>
@@ -298,13 +298,13 @@ h2 {
   width: 500px;
   height: 480px;
   /* Apply dark card styling */
-  background-color: var(--card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
+  /* background-color: var(--card-bg); */
+  /* border: 1px solid rgba(255, 255, 255, 0.05); */
+  /* border-radius: 16px; */
   overflow: hidden;
   margin: 20px auto;
   user-select: none;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); */
   /* Added padding inside for the game area, though note items will cover it */
 }
 
@@ -398,13 +398,17 @@ h2 {
 
 .game-container {
   position: relative;
-  width: 672px;
+  width: 880px;
   background-image: url('@/public/game_bg.jpg');
-  background-size: cover;
-  background-color: #70c5ce;
-  height: 384px;
+  background-size: contain;
+  /* background-color: #70c5ce; */
+  background-repeat: no-repeat;
+  height: 100%;
+
   overflow: hidden;
   /* margin: 20px auto; */
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); */
+
 }
 
 .bird {
