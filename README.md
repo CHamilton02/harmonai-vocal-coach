@@ -13,7 +13,7 @@ This project was developed by a team of three during a 12-hour hackathon.
 | :--- | :--- | :--- |
 | **Camdyn Hamilton** | **Lead Architect & Backend** | Designed the **Monorepo architecture**, engineered the **Express/TypeScript backend**, and implemented the **Gemini 1.5 Flash** prompt engineering pipeline. |
 | **Edison Tran** | **Frontend Engineer** | Built the interactive Vue.js interface and developed the **"Flappy Bird" style pitch-visualization game**. |
-| **AJay Dela Cruz** | **UX/UI Designer** | Designed the visual identity, user flow, and component styling for the frontend application. |
+| **AJay Dela Cruz** | **Frontend UI Developer** | Implemented the visual interface, handled the responsive layout, and styled the core Vue.js components. |
 
 ## 🎥 Demo
 
