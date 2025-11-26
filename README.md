@@ -10,6 +10,10 @@ This repository contains the frontend application for a Vocal Coach platform, de
 - **Results Page**: View detailed analysis and feedback on vocal performance.
 - **Audio Upload**: Upload existing audio files for analysis.
 
+## Demo
+
+https://github.com/user-attachments/assets/744d1fcd-4d5c-40d4-a54b-92f5fdff7c38
+
 ## Technologies Used
 
 ### Frontend (Web App)
