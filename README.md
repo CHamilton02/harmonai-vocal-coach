@@ -1,99 +1,88 @@
-# Vocal Coach
+# 🥈 HarmonAI: Intelligent Vocal Coach
 
-This repository contains the frontend application for a Vocal Coach platform, designed to help users analyze and improve their vocal performance. The application allows users to record their voice, analyze pitch, and provides feedback, potentially through a pitch-matching game.
+> **2nd Place Winner** at CSHub Local Hack Day  
+> **Built in a 12-hour sprint**
 
-## Features
+HarmonAI is a multimodal AI application designed to democratize vocal coaching. By leveraging **Google's Gemini 1.5 Flash API**, the platform analyzes user audio input for pitch, timbre, and texture, providing real-time feedback and generating personalized 7-day practice routines.
 
-- **Voice Recording**: Record audio directly within the application.
-- **Pitch Analysis**: Analyze recorded audio for pitch accuracy and vocal patterns.
-- **Pitch Game**: (Potentially) An interactive game to practice and improve pitch.
-- **Results Page**: View detailed analysis and feedback on vocal performance.
-- **Audio Upload**: Upload existing audio files for analysis.
+## 👥 Contributors
 
-## Demo
+This project was developed by a team of three during a 12-hour hackathon.
+
+| Team Member | Role | Key Contributions |
+| :--- | :--- | :--- |
+| **Camdyn Hamilton** | **Lead Architect & Backend** | Designed the **Monorepo architecture**, engineered the **Express/TypeScript backend**, and implemented the **Gemini 1.5 Flash** prompt engineering pipeline. |
+| **Edison Tran** | **Frontend Engineer** | Built the interactive Vue.js interface and developed the **"Flappy Bird" style pitch-visualization game**. |
+| **AJay Dela Cruz** | **UX/UI Designer** | Designed the visual identity, user flow, and component styling for the frontend application. |
+
+## 🎥 Demo
 
 https://github.com/user-attachments/assets/744d1fcd-4d5c-40d4-a54b-92f5fdff7c38
 
-## Technologies Used
+## ✨ Key Features
 
-### Frontend (Web App)
+- **Multimodal Audio Analysis**: Captures raw audio and processes it using Gemini 1.5 Flash to analyze vocal patterns.
+- **AI-Generated Routines**: Automatically generates a 7-day vocal exercise plan based on the user's specific weaknesses.
+- **Comparative Benchmarking**: "Song Comparison" engine that compares user vocals against artist tracks.
+- **Gamified Learning**: An interactive pitch-control game to practice vocal stability in real-time.
 
-- Vue.js (as indicated by `.vue` files)
-- Vite (for development server and build, indicated by `vite.config.js`)
-- JavaScript/ES Modules
-- `multer` (on the server-side for file uploads)
-- `express` (on the server-side for the API)
-- `cors` (on the server-side)
+## 🛠️ Technical Stack
 
-### Backend (Server)
+This project utilizes a **Monorepo** structure to separate concerns between the high-performance backend and the interactive frontend.
 
-- Node.js
-- Express.js
-- TypeScript (as indicated by `.ts` files)
-- `multer` (for handling file uploads)
+### **Backend (API & Logic)**
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Language:** TypeScript
+- **AI Model:** Google Gemini 1.5 Flash
+- **Utilities:** Multer (File Handling), CORS
 
-## Project Structure
+### **Frontend (Client)**
+- **Framework:** Vue.js
+- **Build Tool:** Vite
+- **Language:** TypeScript / JavaScript
 
-- `apps/server/`: Contains the backend API developed with Node.js and Express.
-  - `src/controllers/`: Logic for handling API requests.
-  - `src/middleware/`: Express middleware.
-  - `src/routes/`: API routes (e.g., `/analyze`).
-  - `src/services/`: Business logic and data processing.
-- `apps/server/`: Contains the backend API developed with Node.js and Express.
-  - `src/controllers/`: Logic for handling API requests.
-  - `src/middleware/`: Express middleware.
-  - `src/routes/`: API routes (e.g., `/analyze`).
-  - `src/services/`: Business logic and data processing.
-  - `src/types/`: TypeScript type definitions.
-- `apps/web-app/`: Contains the Vue.js frontend application.
-  - `public/`: Static assets.
-  - `src/components/`: Reusable Vue components.
-  - `src/pages/`: Vue components for different application views (e.g., Record, PitchGame, ResultsPage).
-  - `src/router/`: Vue Router configuration.
-  - `src/utils/`: Utility functions (e.g., `UploadAudio.js`).
-- `uploads/`: Directory for storing uploaded audio files.
-- `package.json`: Defines project metadata and dependencies for the monorepo root.
-- `vite.config.js`: Configuration for Vite, used by the frontend.
-- `tsconfig.json`: TypeScript configuration.
-- `jsconfig.json`: JavaScript language service configuration.
+## 📂 Project Structure
 
-## Setup and Installation
+```text
+├── apps/
+│   ├── server/             # Backend API (Express + TypeScript)
+│   │   ├── src/controllers # Request handlers
+│   │   ├── src/services    # Business logic & AI integration
+│   │   ├── src/routes      # API endpoints (e.g., /analyze)
+│   │   └── src/types       # TypeScript definitions
+│   ├── web-app/            # Frontend Application (Vue.js)
+│       ├── src/components  # Reusable UI components
+│       ├── src/pages       # Views (Record, PitchGame, Results)
+│       └── src/utils       # Helpers (Audio processing)
+├── uploads/                # Temporary storage for audio processing
+├── package.json            # Monorepo root dependencies
+└── tsconfig.json           # Shared TypeScript configuration
+```
 
-To get this project up and running on your local machine, follow these steps:
+## 🚀 Setup and Installation
 
-1.  **Clone the repository:**
+Follow these steps to run the development environment locally:
 
-    ```bash
-    git clone https://github.com/your-username/harmonai-vocal-coach.git
-    cd harmonai-vocal-coach
-    ```
+1. **Clone the repository:**
+```Bash
+git clone [https://github.com/your-username/harmonai-vocal-coach.git](https://github.com/your-username/harmonai-vocal-coach.git)
+cd harmonai-vocal-coach
+```
+2. **Install dependencies:** This project uses a monorepo structure. Install dependencies at the root level.
+```Bash
+npm install
+```
+3. **Configure Environment:** Create a `.env` file in the root directory and add your Google Gemini API key:
+```Bash
+GEMINI_API_KEY=your_api_key_here
+```
+4. **Start the Development Suite:** Run the following command to start both the backend server and frontend client concurrently:
+```Bash
+npm run dev
+```
+- **Backend:** `http://localhost:8080`
+- **Frontend:**   `http://localhost:5173`
 
-2.  **Install dependencies:**
-    This project uses a monorepo structure. Install dependencies at the root level.
-
-    ```bash
-    npm install
-    ```
-
-3.  **Add .env file:**
-    Add a '.env' file to the root directory and place the variable 'GEMINI_API_KEY' with your api key as the value.
-
-4.  **Start the development servers:**
-    From the root directory, run the following command to start both the backend server and the frontend application in development mode.
-
-    ```bash
-    npm run dev
-    ```
-
-    The backend server should start on `http://localhost:8080` (or the port specified in `apps/server/src/index.ts`).
-    The frontend application should now be running, typically on `http://localhost:5173` (or another port as configured by Vite).
-
-## Usage
-
-- Open your web browser and navigate to the address where the frontend is running (e.g., `http://localhost:5173`).
-- Use the "Record" page to capture your voice.
-- Explore other features like the "Pitch Game" or "Results Page" as they become available.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit issues or pull requests.
+## ⚖️ Disclaimer
+_This project was built as a prototype for a hackathon. While fully functional, some features are optimized for demonstration speed rather than production scalability._
